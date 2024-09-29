@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Multi-Step Register Form",
@@ -18,7 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(`${inter.className} antialiased`)}>{children}</body>
+      <body
+        className={clsx(
+          "flex min-h-svh flex-col bg-black",
+          `${inter.className} antialiased`,
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }
