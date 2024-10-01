@@ -1,44 +1,52 @@
 import Button from "@/app/ui/button";
 import Card from "@/app/ui/card";
+import Pagination, { PaginationLink } from "@/app/ui/pagination";
 
 export default function Step3() {
   return (
-    <Card>
-      <h2 className="mb-6 text-[20px] font-semibold text-white">Summary </h2>
+    <>
+      <Card>
+        <h2 className="mb-6 text-[20px] font-semibold text-white">Summary </h2>
 
-      <div className="space-y-1 font-medium">
-        <div>
-          <label htmlFor="name" className="text-gray-brown">
-            Name:{" "}
-          </label>
-          <p id="name" className="inline text-white">
-            Emily Johnson
-          </p>
+        <div className="space-y-1 font-medium">
+          <div>
+            <label htmlFor="name" className="text-gray-brown">
+              Name:{" "}
+            </label>
+            <p id="name" className="inline text-white">
+              Emily Johnson
+            </p>
+          </div>
+
+          <div>
+            <label htmlFor="email" className="text-gray-brown">
+              Email:{" "}
+            </label>
+            <p id="email" className="inline text-white">
+              emily.johnson@gmail.com
+            </p>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="email" className="text-gray-brown">
-            Email:{" "}
+        <div className="mt-4 font-medium">
+          <label htmlFor="topics" className="text-gray-brown">
+            Topics:{" "}
           </label>
-          <p id="email" className="inline text-white">
-            emily.johnson@gmail.com
-          </p>
+          <ul id="topics" className="list-disc pl-6 text-white">
+            <li>User Experience</li>
+            <li>Graphic Design</li>
+          </ul>
         </div>
-      </div>
 
-      <div className="mt-4 font-medium">
-        <label htmlFor="topics" className="text-gray-brown">
-          Topics:{" "}
-        </label>
-        <ul id="topics" className="list-disc pl-6 text-white">
-          <li>User Experience</li>
-          <li>Graphic Design</li>
-        </ul>
-      </div>
-
-      <form className="flex grow flex-col items-center gap-y-6">
-        <Button className="mt-auto">Confirm</Button>
-      </form>
-    </Card>
+        <form className="flex grow flex-col items-center gap-y-6">
+          <Button className="mt-auto">Confirm</Button>
+        </form>
+      </Card>
+      <Pagination currentPageNum={3} totalPages={3}>
+        <PaginationLink state="previous" href="./step1" />
+        <PaginationLink state="previous" href="./step2" />
+        <PaginationLink state="current" />
+      </Pagination>
+    </>
   );
 }
