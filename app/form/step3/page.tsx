@@ -1,8 +1,31 @@
+"use client";
+
+import { multiSelectOptions } from "@/app/lib/data";
+import { FORM_ACTIONS, useFormContext } from "@/app/lib/form-context";
 import Button from "@/app/ui/button";
 import Card from "@/app/ui/card";
 import Pagination, { PaginationLink } from "@/app/ui/pagination";
+import { useRouter } from "next/navigation";
 
 export default function Step3() {
+  const { push } = useRouter();
+  const { formState, dispatch } = useFormContext();
+  const name = formState.step1.name;
+  const email = formState.step1.email;
+  const selectedOptions = formState.step2.selectedOptions;
+
+  const selectedOptionsList = multiSelectOptions.filter((option) =>
+    selectedOptions.includes(option.id),
+  );
+
+  function handleSubmit() {
+    dispatch({
+      type: FORM_ACTIONS.RESET,
+      payload: null,
+    });
+    push("./step1");
+  }
+
   return (
     <>
       <Card>
@@ -14,7 +37,7 @@ export default function Step3() {
               Name:{" "}
             </label>
             <p id="name" className="inline text-white">
-              Emily Johnson
+              {name}
             </p>
           </div>
 
@@ -23,7 +46,7 @@ export default function Step3() {
               Email:{" "}
             </label>
             <p id="email" className="inline text-white">
-              emily.johnson@gmail.com
+              {email}
             </p>
           </div>
         </div>
@@ -33,12 +56,19 @@ export default function Step3() {
             Topics:{" "}
           </label>
           <ul id="topics" className="list-disc pl-6 text-white">
-            <li>User Experience</li>
-            <li>Graphic Design</li>
+            {selectedOptionsList.map((option) => (
+              <li key={option.id}>{option.label}</li>
+            ))}
           </ul>
         </div>
 
-        <form className="flex grow flex-col items-center gap-y-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="flex grow flex-col items-center gap-y-6"
+        >
           <Button className="mt-auto">Confirm</Button>
         </form>
       </Card>

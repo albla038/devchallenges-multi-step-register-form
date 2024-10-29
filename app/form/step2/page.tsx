@@ -1,14 +1,41 @@
+"use client";
+
+import { multiSelectOptions } from "@/app/lib/data";
+import { FORM_ACTIONS, useFormContext } from "@/app/lib/form-context";
 import Button from "@/app/ui/button";
 import Card from "@/app/ui/card";
 import Pagination, { PaginationLink } from "@/app/ui/pagination";
-
-const multiSelectOptions = [
-  { id: 0, label: "Software Development", value: "software_development" },
-  { id: 1, label: "User Experience", value: "user_experience" },
-  { id: 2, label: "Graphic Design", value: "graphic_design" },
-];
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Step2() {
+  const { formState, dispatch } = useFormContext();
+  const [selectedOptions, setOptions] = useState<number[]>(
+    formState.step2.selectedOptions,
+  );
+  const { push } = useRouter();
+
+  console.log(selectedOptions);
+
+  function handleCheck(id: number) {
+    setOptions((prevOptions) => {
+      if (prevOptions.includes(id)) {
+        return prevOptions.filter((prevOption) => prevOption !== id);
+      } else {
+        return [...prevOptions, id];
+      }
+    });
+  }
+
+  function handleNext() {
+    dispatch({
+      type: FORM_ACTIONS.CHANGED_STEP2,
+      payload: { selectedOptions },
+    });
+
+    push("./step3");
+  }
+
   return (
     <>
       <Card>
@@ -16,7 +43,13 @@ export default function Step2() {
           Which topics are you interested in?
         </h2>
 
-        <form className="flex grow flex-col items-center gap-y-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleNext();
+          }}
+          className="flex grow flex-col items-center gap-y-6"
+        >
           <fieldset className="w-full space-y-4">
             {multiSelectOptions.map((option) => (
               <div key={option.id} className="w-full">
@@ -24,6 +57,8 @@ export default function Step2() {
                   type="checkbox"
                   id={option.value}
                   name={option.value}
+                  checked={selectedOptions.includes(option.id)}
+                  onChange={() => handleCheck(option.id)}
                   hidden
                   className="peer"
                 />

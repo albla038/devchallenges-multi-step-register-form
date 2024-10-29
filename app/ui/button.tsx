@@ -4,14 +4,12 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
 };
 
-export default function Button(props: ButtonProps) {
-  const { children, className } = props;
-
+export default function Button({ children, className, ...rest }: ButtonProps) {
   return (
     <button
-      {...props}
+      {...rest}
       className={clsx(
-        "from-primary-light to-primary-dark h-10 w-32 rounded-full bg-gradient-to-b text-sm font-semibold text-white hover:opacity-85 focus:border-white active:opacity-60",
+        "h-10 w-32 rounded-full bg-gradient-to-b from-primary-light to-primary-dark text-sm font-semibold text-white hover:opacity-85 focus:border-white active:opacity-60",
         className,
       )}
     >

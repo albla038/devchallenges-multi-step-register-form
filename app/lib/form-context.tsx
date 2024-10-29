@@ -6,12 +6,13 @@ import { createContext, useContext, useReducer } from "react";
 export enum FORM_ACTIONS {
   CHANGED_STEP1 = "changed_step1",
   CHANGED_STEP2 = "changed_step2",
+  RESET = "reset",
 }
 
 // Reducer state type definitions
 export type FormState = {
   step1: { name: string; email: string };
-  step2: { chosenOptions: string[] };
+  step2: { selectedOptions: number[] };
 };
 
 // Reducer action type definitinons
@@ -23,9 +24,10 @@ type Action =
   | {
       type: FORM_ACTIONS.CHANGED_STEP2;
       payload: FormState["step2"];
-    };
+    }
+  | { type: FORM_ACTIONS.RESET; payload: null };
 
-function formReducer(formState: FormState, action: Action) {
+function formReducer(formState: FormState, action: Action): FormState {
   const { type, payload } = action;
 
   switch (type) {
@@ -41,6 +43,9 @@ function formReducer(formState: FormState, action: Action) {
         step2: payload,
       };
     }
+    case FORM_ACTIONS.RESET: {
+      return initialData;
+    }
     default: {
       throw new Error("Unknown reducer action!");
     }
@@ -50,7 +55,7 @@ function formReducer(formState: FormState, action: Action) {
 // Initial state data
 const initialData: FormState = {
   step1: { name: "", email: "" },
-  step2: { chosenOptions: [""] },
+  step2: { selectedOptions: [] },
 };
 
 const FormContext = createContext<{
